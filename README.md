@@ -1,5 +1,7 @@
 # LabelFormer.mojo
 
+[![CI](https://github.com/labelrefinery/LabelFormer.mojo/actions/workflows/ci.yml/badge.svg)](https://github.com/labelrefinery/LabelFormer.mojo/actions/workflows/ci.yml)
+
 Pure-[Mojo](https://www.modular.com/mojo) inference implementation of **LabelFormer** — *Object Trajectory Refinement for Offboard Perception from LiDAR Point Clouds* (Yang et al., CoRL 2023, [arXiv:2311.01444](https://arxiv.org/abs/2311.01444)).
 
 LabelFormer refines noisy object trajectories (auto-labels) from LiDAR: each frame's box + object points are encoded independently (box MLP + PointPillars-style CNN), a transformer with ALiBi relative position biases reasons over the full trajectory, and the model decodes refined per-frame poses plus a single trajectory-level object size.
@@ -13,9 +15,20 @@ The PyTorch reference implementation and training code (ArgoVerse 2) live at [la
 - `src/debug.mojo` — stage-by-stage divergence localization against a PyTorch debug dump.
 - `tests/test_ops.mojo` — hand-computed unit tests for every op.
 
+## Supported Mojo versions
+
+Both **stable Mojo 1.0** and the **Modular nightly** are supported and tested in CI (unit tests + full PyTorch parity, Linux and macOS-arm64):
+
+| pixi environment | compiler | run it |
+|---|---|---|
+| `default` | nightly (`modular` ≥ 26.6 nightly) | `pixi run test` / `pixi run infer` |
+| `stable` | `mojo-compiler == 1.0.0` | `pixi run -e stable test` / `pixi run -e stable infer` |
+
+The mojoshelf tin builds its package with stable 1.0 (the `pixi-build-mojo` backend requires it) and declares `mojo-compiler >=1.0,<2` as its run dependency.
+
 ## Setup
 
-Requires [pixi](https://pixi.sh). `pixi install` pulls the Modular nightly toolchain declared in `pixi.toml`.
+Requires [pixi](https://pixi.sh). `pixi install` pulls the toolchains declared in `pixi.toml`.
 
 Export weights + test samples from the PyTorch side (in a LabelFormer.py checkout with a trained checkpoint):
 
