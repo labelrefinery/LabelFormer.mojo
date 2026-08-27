@@ -44,6 +44,17 @@ uv run python -m labelformer.evaluate --checkpoint runs/smoke/best.pt
 
 Prints track-level mean IoU, frame-pooled mean IoU, and recall@{0.5,0.6,0.7,0.8} for the *initial* (perturbed) and *refined* trajectories side by side — the model earns its keep when the refined column beats the initial one.
 
+### Reference smoke result
+
+30 epochs of `configs/smoke.yaml` (12 train / 4 val logs, 739/261 vehicle tracks, ~11 min on an Apple Silicon MPS with `PYTORCH_ENABLE_MPS_FALLBACK=1`, 1.16M-param model):
+
+| metric | initial (perturbed) | refined | delta |
+|---|---|---|---|
+| mean IoU | 0.794 | 0.939 | +0.145 |
+| track mean IoU | 0.793 | 0.936 | +0.143 |
+| recall@0.7 | 0.966 | 0.999 | +0.034 |
+| recall@0.8 | 0.450 | 0.992 | +0.542 |
+
 ## Tests
 
 ```sh
