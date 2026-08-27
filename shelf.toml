@@ -1,4 +1,4 @@
-name = "LabelFormer"
+name = "labelformer"
 version = "0.1.0"
 description = "Pure-Mojo LabelFormer inferencer: LiDAR trajectory auto-label refinement (CoRL 2023)"
 tags = ["autolabeling", "lidar", "transformer", "inference", "argoverse2"]
