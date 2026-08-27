@@ -46,3 +46,7 @@ Verified on 3 real ArgoVerse 2 val trajectories (T=43–48 frames, 9–3295 lida
 | refined boxes | ≤ 1.5e-6 |
 
 One porting subtlety worth knowing: PyTorch computes the pillar-grid readout cell in Python float64, where `(0−(−9.6))/0.2 = 47.999…` truncates to 47; a float32 reproduction gets exactly 48. The exported `__config__` therefore carries the readout cell computed with PyTorch's exact semantics.
+
+## Pretrained weights
+
+Exported weights and parity samples for the smoke checkpoint are on HuggingFace: [mseritan/LabelFormer-AV2-smoke](https://huggingface.co/mseritan/LabelFormer-AV2-smoke) (`mojo/` folder; CC BY-NC-SA, research use) — drop them into `data/` to run without the PyTorch side.
