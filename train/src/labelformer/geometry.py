@@ -100,5 +100,5 @@ def canonicalize_headings(headings: np.ndarray) -> tuple[np.ndarray, np.ndarray]
     if aligned.sum() < headings.size - aligned.sum():
         axis = wrap_angle(axis + np.pi)
         aligned = ~aligned
-    out = np.where(aligned, headings, wrap_angle(headings + np.pi))
+    out = wrap_angle(np.where(aligned, headings, headings + np.pi))
     return out, ~aligned
