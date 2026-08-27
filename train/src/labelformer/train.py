@@ -126,8 +126,8 @@ def main() -> None:
     train_ds = TrajectoryDataset(split="train", subsequence=True, deterministic=False, **common)
     val_ds = TrajectoryDataset(split="val", subsequence=False, deterministic=True, **common)
     if args.limit_tracks:
-        train_ds.index = train_ds.index[: args.limit_tracks]
-        val_ds.index = val_ds.index[: max(1, args.limit_tracks // 4)]
+        train_ds.files = train_ds.files[: args.limit_tracks]
+        val_ds.files = val_ds.files[: max(1, args.limit_tracks // 4)]
     print(f"tracks: train={len(train_ds)} val={len(val_ds)}")
 
     dl_kwargs = dict(
@@ -181,7 +181,7 @@ def main() -> None:
             scaler.step(opt)
             scaler.update()
             sched.step()
-            running.append(float(loss["loss_total"]))
+            running.append(float(loss["loss_total"].detach()))
             if (step + 1) % tcfg["log_every"] == 0:
                 print(
                     f"epoch {epoch} step {step + 1}/{steps_per_epoch} "
