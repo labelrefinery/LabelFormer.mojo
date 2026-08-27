@@ -12,3 +12,4 @@ train/runs/
 .pixi/*
 !.pixi/config.toml
 data/
+*.conda
