@@ -8,3 +8,7 @@ __pycache__/
 # Data & experiment outputs (large, never committed)
 train/data/
 train/runs/
+# pixi environments
+.pixi/*
+!.pixi/config.toml
+data/

@@ -1,0 +1,14 @@
+[workspace]
+authors = ["Marius S <39998+winding-lines@users.noreply.github.com>"]
+channels = ["https://conda.modular.com/max-nightly", "conda-forge"]
+name = "LabelFormer.mojo"
+platforms = ["osx-arm64"]
+version = "0.1.0"
+
+[tasks]
+test = "mojo run -I src tests/test_ops.mojo"
+infer = "mojo run src/main.mojo data/weights.lft data/sample_0.lft data/sample_1.lft data/sample_2.lft"
+debug = "mojo run src/debug.mojo"
+
+[dependencies]
+modular = ">=26.6.0.dev2026082605,<27"
