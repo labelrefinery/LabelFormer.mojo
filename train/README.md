@@ -1,0 +1,60 @@
+# LabelFormer — PyTorch training
+
+PyTorch implementation of LabelFormer (Yang et al., CoRL 2023) trained on the ArgoVerse 2 sensor dataset. Initial noisy trajectories are simulated by perturbing ground-truth tracks with the paper's noise model (±0.25 m translation, ±10° heading, size jitter), so no first-stage detector is required.
+
+## Setup
+
+Requires [uv](https://docs.astral.sh/uv/) and, for data download, [s5cmd](https://github.com/peak/s5cmd) (`brew install s5cmd`).
+
+```sh
+cd train
+uv sync
+```
+
+## Data
+
+Download AV2 sensor logs (anonymous S3; only annotations + ego poses + lidar, ~200 MB/log), then extract per-track training shards:
+
+```sh
+uv run python scripts/download_av2.py --split train --num-logs 12 --out data/av2
+uv run python scripts/download_av2.py --split val   --num-logs 4  --out data/av2
+uv run python scripts/preprocess_tracks.py --data-root data/av2 --split train --out data/processed
+uv run python scripts/preprocess_tracks.py --data-root data/av2 --split val   --out data/processed
+```
+
+Both scripts are incremental — rerun with a larger `--num-logs` (or `-1` for the full 700/150-log splits, ~all of which you only want on a big disk) to scale up.
+
+## Train
+
+```sh
+# small local smoke run (Apple Silicon MPS or CPU)
+uv run python -m labelformer.train --config configs/smoke.yaml
+
+# paper-scale run (CUDA GPU recommended; 40 epochs, AMP)
+uv run python -m labelformer.train --config configs/labelformer_av2.yaml
+```
+
+Checkpoints, config snapshot, and per-epoch history land in `runs/<run_name>/`.
+
+## Evaluate
+
+```sh
+uv run python -m labelformer.evaluate --checkpoint runs/smoke/best.pt
+```
+
+Prints track-level mean IoU, frame-pooled mean IoU, and recall@{0.5,0.6,0.7,0.8} for the *initial* (perturbed) and *refined* trajectories side by side — the model earns its keep when the refined column beats the initial one.
+
+## Tests
+
+```sh
+uv run pytest -q
+```
+
+## Implementation notes
+
+- BEV formulation per the paper: boxes are `(x, y, yaw, l, w)` in a trajectory frame centered on the middle frame.
+- Per-frame encoder: PointPillars-style pillar grid (10 cm, 24 m × 8 m object-centric) → PointNet → ResNet/FPN CNN, fused with an MLP-encoded box.
+- Transformer: 6 pre-norm blocks, 4 heads, d=256, ALiBi relative position bias.
+- Decoders: per-frame pose residuals + one mean-pooled size residual per trajectory.
+- Loss: Smooth-L1 on position/size and sin/cos of doubled heading (λ=0.1) + axis-aligned IoU loss.
+- AV2 feather files are read directly with pyarrow (no `av2` devkit dependency).
