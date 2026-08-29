@@ -1,6 +1,6 @@
 # LabelFormer.mojo
 
-[![CI](https://github.com/labelrefinery/LabelFormer.mojo/actions/workflows/ci.yml/badge.svg)](https://github.com/labelrefinery/LabelFormer.mojo/actions/workflows/ci.yml)
+[![CI](https://github.com/labelrefinery/LabelFormer.mojo/actions/workflows/ci.yml/badge.svg)](https://github.com/labelrefinery/LabelFormer.mojo/actions/workflows/ci.yml) [![mojoshelf](https://mojoshelf.org/badge/labelformer.svg)](https://mojoshelf.org/tins/labelformer) [![mojo nightly](https://mojoshelf.org/badge/labelformer/nightly.svg)](https://mojoshelf.org/tins/labelformer)
 
 Pure-[Mojo](https://www.modular.com/mojo) inference implementation of **LabelFormer** — *Object Trajectory Refinement for Offboard Perception from LiDAR Point Clouds* (Yang et al., CoRL 2023, [arXiv:2311.01444](https://arxiv.org/abs/2311.01444)).
 
@@ -25,6 +25,18 @@ Both **stable Mojo 1.0** and the **Modular nightly** are supported and tested in
 | `stable` | `mojo-compiler == 1.0.0` | `pixi run -e stable test` / `pixi run -e stable infer` |
 
 The mojoshelf tin builds its package with stable 1.0 (the `pixi-build-mojo` backend requires it) and declares `mojo-compiler >=1.0,<2` as its run dependency.
+
+## Install as a mojoshelf tin
+
+Published on [mojoshelf](https://mojoshelf.org/tins/labelformer) as `labelformer`:
+
+```sh
+pixi shelf add labelformer     # pixi mode (git source dependency)
+shelf add labelformer          # or as a git submodule
+```
+
+Maintainers release new versions with `shelf publish` from the repo root
+(see [getting started](https://mojoshelf.org/getting-started)).
 
 ## Setup
 
