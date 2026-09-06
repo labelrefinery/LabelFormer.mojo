@@ -3,7 +3,7 @@ authors = ["Marius S <39998+winding-lines@users.noreply.github.com>"]
 channels = ["https://conda.modular.com/max-nightly", "conda-forge"]
 name = "LabelFormer.mojo"
 platforms = ["osx-arm64", "linux-64"]
-version = "0.1.0"
+version = "0.1.1"
 preview = ["pixi-build"]
 
 [package]
