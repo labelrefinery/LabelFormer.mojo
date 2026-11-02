@@ -17,14 +17,14 @@ The PyTorch reference implementation and training code (ArgoVerse 2) live at [la
 
 ## Supported Mojo versions
 
-Both **stable Mojo 1.0** and the **Modular nightly** are supported and tested in CI (unit tests + full PyTorch parity, Linux and macOS-arm64):
+Both **stable Mojo 1.2** and the **Modular nightly** are supported and tested in CI (unit tests + full PyTorch parity, Linux and macOS-arm64):
 
 | pixi environment | compiler | run it |
 |---|---|---|
-| `default` | nightly (`modular` ≥ 26.6 nightly) | `pixi run test` / `pixi run infer` |
-| `stable` | `mojo-compiler == 1.0.0` | `pixi run -e stable test` / `pixi run -e stable infer` |
+| `default` | nightly (`modular` ≥ 26.8 nightly) | `pixi run test` / `pixi run infer` |
+| `stable` | `mojo-compiler == 1.2.0` | `pixi run -e stable test` / `pixi run -e stable infer` |
 
-The mojoshelf tin builds its package with stable 1.0 (the `pixi-build-mojo` backend requires it) and declares `mojo-compiler >=1.0,<2` as its run dependency.
+The mojoshelf tin builds its package with stable 1.2 (the `pixi-build-mojo` backend requires it) and declares `mojo-compiler >=1.2,<2` as its run dependency.
 
 ## Install as a mojoshelf tin
 
